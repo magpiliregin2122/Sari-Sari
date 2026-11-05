@@ -1,1 +1,95 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SARI SARI ORDER FORM</title><style>body{font-family:Arial,sans-serif;background:#fff7dd;margin:0;padding:24px;color:#322}.wrap{max-width:720px;margin:auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 8px 30px #0002}h1{color:#7b4d00;margin-top:0}.item{display:grid;grid-template-columns:86px 1fr 110px;gap:15px;align-items:center;padding:16px 0;border-bottom:1px solid #eee}.product-img{width:86px;height:76px;object-fit:cover;border-radius:12px}input,select,button{box-sizing:border-box;width:100%;font-size:16px;padding:12px;border:1px solid #bbb;border-radius:10px}.type{margin-top:6px;padding:7px}button{margin-top:22px;background:#7b4d00;color:white;border:0;font-weight:bold;cursor:pointer}button:disabled{opacity:.6}.total{margin-top:18px;font-size:21px;font-weight:bold;color:#7b4d00}.msg{margin-top:15px;font-weight:bold}.ok{color:#18723c}.err{color:#a51b1b}@media(max-width:520px){body{padding:10px}.wrap{padding:18px}.item{grid-template-columns:68px 1fr 82px}.product-img{width:68px;height:62px}}</style></head><body><main class="wrap"><h1>SARI SARI ORDER FORM</h1><p>Enter your name and select your quantities.</p><form id="orderForm"><label for="name"><b>Name</b></label><input id="name" required maxlength="80" placeholder="Your name"><div class="item"><img class="product-img" src="BALOT.PNG.png" alt="Balot"><span><b>Balot</b><br><small>₱25 each</small></span><select id="balot"></select></div><div class="item"><img class="product-img" src="penoy.png.png" alt="Penoy"><span><b>Penoy</b><br><small>₱20 each</small><br><label for="penoyType"><small>Type</small></label><select id="penoyType" class="type"><option value="Sabaw">Sabaw</option><option value="Tuyo">Tuyo</option></select></span><select id="penoy"></select></div><div class="item"><img class="product-img" src="Pugo.png.png" alt="Pugo"><span><b>Pugo</b><br><small>₱5 each</small></span><select id="pugo"></select></div><div class="item"><img class="product-img" src="Suka small.jpg" alt="Suka Small"><span><b>Suka Small</b><br><small>₱60 each</small></span><select id="sukaSmall"></select></div><div class="item"><img class="product-img" src="Suka big.jpg" alt="Suka Big"><span><b>Suka Big</b><br><small>₱100 each</small></span><select id="sukaBig"></select></div><div id="total" class="total">Total: ₱0</div><button id="submitBtn" type="submit">Submit Order</button><div id="msg" class="msg" aria-live="polite"></div></form></main><script>const ENDPOINT='https://script.google.com/macros/s/AKfycbwHbWhBdqO2B_SXONu9cm0tNf7bkyNTspKLpX-tAMlw7-ORlN8_Ij8TWyZbC8LCGMbClQ/exec';['balot','penoy','pugo','sukaSmall','sukaBig'].forEach(id=>{const s=document.getElementById(id);for(let i=0;i<=50;i++){const o=document.createElement('option');o.value=i;o.textContent=i;s.appendChild(o)}s.addEventListener('change',updateTotal)});function updateTotal(){const t=(+balot.value*25)+(+penoy.value*20)+(+pugo.value*5)+(+sukaSmall.value*60)+(+sukaBig.value*100);total.textContent='Total: ₱'+t.toLocaleString('en-PH');return t}orderForm.addEventListener('submit',async e=>{e.preventDefault();const n=name.value.trim(),b=+balot.value,pe=+penoy.value,pt=penoyType.value,p=+pugo.value,ss=+sukaSmall.value,sb=+sukaBig.value,t=updateTotal();msg.className='msg';if(!n){msg.textContent='Please enter your name.';msg.classList.add('err');return}if(b+pe+p+ss+sb===0){msg.textContent='Please select at least one item.';msg.classList.add('err');return}submitBtn.disabled=true;submitBtn.textContent='Submitting...';try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({name:n,balot:b,penoy:pe,penoyType:pt,pugo:p,sukaSmall:ss,sukaBig:sb,total:t})});msg.textContent='Order submitted!';msg.classList.add('ok');e.target.reset();updateTotal()}catch(x){msg.textContent='Could not submit order. Please try again.';msg.classList.add('err')}finally{submitBtn.disabled=false;submitBtn.textContent='Submit Order'}});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SARI SARI ORDER FORM</title>
+<style>
+body{font-family:Arial,sans-serif;background:#fff7dd;margin:0;padding:24px;color:#322}
+.wrap{max-width:720px;margin:auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 8px 30px #0002}
+h1{color:#7b4d00;margin-top:0}.item{display:grid;grid-template-columns:86px 1fr 110px;gap:15px;align-items:center;padding:16px 0;border-bottom:1px solid #eee}
+.product-img{width:86px;height:76px;object-fit:cover;border-radius:12px}
+input,select,button{box-sizing:border-box;width:100%;font-size:16px;padding:12px;border:1px solid #bbb;border-radius:10px}.type{margin-top:6px;padding:7px}
+button{margin-top:22px;background:#7b4d00;color:white;border:0;font-weight:bold;cursor:pointer}button:disabled{opacity:.6}.total{margin-top:18px;font-size:21px;font-weight:bold;color:#7b4d00}.msg{margin-top:15px;font-weight:bold}.ok{color:#18723c}.err{color:#a51b1b}
+@media(max-width:520px){body{padding:10px}.wrap{padding:18px}.item{grid-template-columns:68px 1fr 82px}.product-img{width:68px;height:62px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<h1>SARI SARI ORDER FORM</h1>
+<p>Enter your name and select your quantities.</p>
+<form id="orderForm">
+<label for="name"><b>Name</b></label>
+<input id="name" required maxlength="80" placeholder="Your name">
+<div class="item"><img class="product-img" src="BALOT.PNG.png" alt="Balot"><span><b>Balot</b><br><small>₱25 each</small></span><select id="balot"></select></div>
+<div class="item"><img class="product-img" src="penoy.png.png" alt="Penoy"><span><b>Penoy</b><br><small>₱20 each</small><br><label for="penoyType"><small>Type</small></label><select id="penoyType" class="type"><option value="Sabaw">Sabaw</option><option value="Tuyo">Tuyo</option></select></span><select id="penoy"></select></div>
+<div class="item"><img class="product-img" src="Pugo.png.png" alt="Pugo"><span><b>Pugo</b><br><small>₱5 each</small></span><select id="pugo"></select></div>
+<div class="item"><img class="product-img" src="Suka small.jpg" alt="Suka Small"><span><b>Suka Small</b><br><small>₱60 each</small></span><select id="sukaSmall"></select></div>
+<div class="item"><img class="product-img" src="Suka big.jpg" alt="Suka Big"><span><b>Suka Big</b><br><small>₱100 each</small></span><select id="sukaBig"></select></div>
+<div id="total" class="total">Total: ₱0</div>
+<button id="submitBtn" type="submit">Submit Order</button>
+<div id="msg" class="msg" aria-live="polite"></div>
+</form>
+</main>
+<script>
+const ENDPOINT='https://script.google.com/macros/s/AKfycbwHbWhBdqO2B_SXONu9cm0tNf7bkyNTspKLpX-tAMlw7-ORlN8_Ij8TWyZbC8LCGMbClQ/exec';
+const form=document.getElementById('orderForm');
+const nameInput=document.getElementById('name');
+const balot=document.getElementById('balot');
+const penoy=document.getElementById('penoy');
+const penoyType=document.getElementById('penoyType');
+const pugo=document.getElementById('pugo');
+const sukaSmall=document.getElementById('sukaSmall');
+const sukaBig=document.getElementById('sukaBig');
+const totalEl=document.getElementById('total');
+const submitBtn=document.getElementById('submitBtn');
+const msg=document.getElementById('msg');
+
+[balot,penoy,pugo,sukaSmall,sukaBig].forEach(s=>{
+  for(let i=0;i<=50;i++){
+    const o=document.createElement('option');
+    o.value=i;o.textContent=i;s.appendChild(o);
+  }
+  s.addEventListener('change',updateTotal);
+});
+
+function updateTotal(){
+  const t=(Number(balot.value)*25)+(Number(penoy.value)*20)+(Number(pugo.value)*5)+(Number(sukaSmall.value)*60)+(Number(sukaBig.value)*100);
+  totalEl.textContent='Total: ₱'+t.toLocaleString('en-PH');
+  return t;
+}
+
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  const n=nameInput.value.trim();
+  const b=Number(balot.value), pe=Number(penoy.value), p=Number(pugo.value), ss=Number(sukaSmall.value), sb=Number(sukaBig.value);
+  const pt=penoyType.value;
+  const t=updateTotal();
+  msg.className='msg';
+  msg.textContent='';
+  if(!n){msg.textContent='Please enter your name.';msg.classList.add('err');return;}
+  if(b+pe+p+ss+sb===0){msg.textContent='Please select at least one item.';msg.classList.add('err');return;}
+
+  submitBtn.disabled=true;
+  submitBtn.textContent='Submitting...';
+
+  const payload=JSON.stringify({name:n,balot:b,penoy:pe,penoyType:pt,pugo:p,sukaSmall:ss,sukaBig:sb,total:t});
+
+  fetch(ENDPOINT,{
+    method:'POST',
+    mode:'no-cors',
+    redirect:'follow',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:payload
+  }).catch(err=>console.error('Submit request error:',err));
+
+  msg.textContent='Order submitted successfully!';
+  msg.classList.add('ok');
+  setTimeout(()=>{form.reset();updateTotal();},500);
+  submitBtn.disabled=false;
+  submitBtn.textContent='Submit Order';
+});
+updateTotal();
+</script>
+</body>
+</html>
